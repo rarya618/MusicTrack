@@ -12,7 +12,7 @@ const Dashboard = (props: Props) => {
   return (
     <>
     <div className="flex overflow-hidden h-screen">
-      <div className="overflow-scroll">
+      <div className="overflow-scroll my-9">
         <h2 className="text-3xl mb-3 text-deep-orange dark:text-light-orange">Dashboard</h2>
         <Table props={props}  />
         {Button("Add track", props.changeAddTrackFormDisplay)}
