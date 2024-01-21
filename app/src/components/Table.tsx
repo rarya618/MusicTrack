@@ -7,9 +7,31 @@ import { useEffect, useState } from "react";
 import { getDates, getTracks } from "../firebase/database";
 import { sampleTrack } from "../dataTypes/Track";
 import { Props } from "../views/Dashboard";
+import { Entry } from "../dataTypes/Entry";
 
 let thStyle = "bg-deep-orange dark:bg-light-orange text-white dark:text-deep-orange px-8 py-2";
 let tdStyle = "whitespace-nowrap px-8 py-4 text-deep-orange dark:text-light-orange" ;
+
+const lastCount = (data: {} | undefined) => {
+  if (data) {
+    const values = Object.values(data);
+    
+    // @ts-ignore
+    let tempData: number[] = [...values].sort((b, a) => a - b)
+
+    return (tempData.length != 0) ? tempData[0] : 0
+  }
+
+  return 0
+}
+
+const ThElement = (text: string) => {
+  return <th className={thStyle}>{text}</th>
+}
+
+const TdElement = (text: string) => {
+  return <td className={tdStyle}>{text}</td>
+}
 
 const Table = (mainProps: {props: Props}) => {
   const [data, setData] = useState([sampleTrack]);
@@ -63,13 +85,14 @@ const Table = (mainProps: {props: Props}) => {
     <table className="rounded border-solid">
       <tr>
         {headerCells.map(field => {
-          return <th className={thStyle}>{field.text}</th>
+          return ThElement(field.text)
         })}
+        <th className={thStyle}>Last count</th>
         {[...dates].sort((b, a) => a.id.localeCompare(b.id)).map(date => {
-          return <th className={thStyle}>{date.id}</th>
+          return ThElement(date.id)
         })}
       </tr>
-      {[...data].map(track => {
+      {[...data].sort((a, b) => lastCount(b.data) - lastCount(a.data)).map(track => {
         return (
           <tr className="relative">
             {headerCells.map(headerCell => {
@@ -98,11 +121,12 @@ const Table = (mainProps: {props: Props}) => {
               if (cellData == "")
                 cellData = "-"
 
-              return (<td className={tdStyle}>{cellData}</td>)
+              return TdElement(cellData)
             })}
+            {TdElement(lastCount(track.data).toString())}
             {[...dates].sort((b, a) => a.id.localeCompare(b.id)).map(date => {
               // @ts-ignore
-              return <td className={tdStyle}>{track.data ? track.data[date.id] ? track.data[date.id].toString() : "-" : "-"}</td>
+              return TdElement(track.data ? track.data[date.id] ? track.data[date.id].toString() : "-" : "-")
             })}
           </tr>
         )

@@ -1,4 +1,4 @@
 export type Entry = {
-    date: Date,
-    value: number
+    id: string,
+    count: number
 }
