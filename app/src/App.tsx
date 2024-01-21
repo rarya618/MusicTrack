@@ -3,6 +3,7 @@ import './App.css'
 import Dashboard from './views/Dashboard'
 import AddTrackForm from './views/AddTrack';
 import AddEntryForm from './views/AddEntry';
+import Nav from './components/Nav';
 
 // set page title
 export function useTitle(title: string) {
@@ -52,33 +53,35 @@ function App() {
 
 
   return (
-    <div className="bg-light-orange dark:bg-deep-orange w-screen h-screen">
-      {
-        isAddTrackFormDisplayed ? (
-          <div className="flex flex-col h-screen pb-5 items-center">
-            <AddTrackForm changeHandler={changeAddTrackFormDisplay}/>
-            {closeButton(changeAddTrackFormDisplay)}
-          </div>
-        ):
-        isAddEntryFormDisplayed ? (
-          <div className="flex flex-col h-screen pb-5 items-center">
-            <AddEntryForm 
+    <div className="flex w-screen h-screen overflow-hidden">
+      <Nav />
+      <div className="bg-light-orange dark:bg-deep-orange overflow-x-hidden h-screen">
+        {
+          isAddTrackFormDisplayed ? (
+            <div className="flex flex-col h-screen pb-5 items-center">
+              <AddTrackForm changeHandler={changeAddTrackFormDisplay}/>
+              {closeButton(changeAddTrackFormDisplay)}
+            </div>
+          ):
+          isAddEntryFormDisplayed ? (
+            <div className="flex flex-col h-screen pb-5 items-center">
+              <AddEntryForm 
+                currentTrack={currentTrack}
+                setCurrentTrack={(newTrack: string) => setCurrentTrack(newTrack)} 
+                changeHandler={changeAddEntryFormDisplay} />
+              {closeButton(changeAddEntryFormDisplay)}
+            </div>
+          ) :
+          <div className="mx-9 h-screen overflow-hidden">
+            <Dashboard 
+              changeAddTrackFormDisplay={changeAddTrackFormDisplay}
+              changeAddEntryFormDisplay={changeAddEntryFormDisplay}
               currentTrack={currentTrack}
               setCurrentTrack={(newTrack: string) => setCurrentTrack(newTrack)} 
-              changeHandler={changeAddEntryFormDisplay} />
-            {closeButton(changeAddEntryFormDisplay)}
+              />
           </div>
-        ) :
-        <div className="p-9">
-          <Dashboard 
-            changeAddTrackFormDisplay={changeAddTrackFormDisplay}
-            changeAddEntryFormDisplay={changeAddEntryFormDisplay}
-            currentTrack={currentTrack}
-            setCurrentTrack={(newTrack: string) => setCurrentTrack(newTrack)} 
-            />
-        </div>
-      }
-      
+        }
+      </div>
     </div>
   )
 }

@@ -47,6 +47,7 @@ const TdElement = (text: string) => {
   return <td className={tdStyle}>{text}</td>
 }
 
+// Table component
 const Table = (mainProps: {props: Props}) => {
   const [data, setData] = useState([sampleTrack]);
   const [dates, setDates] = useState([{id: "sample", exists: false}]);
@@ -95,7 +96,7 @@ const Table = (mainProps: {props: Props}) => {
 		})
 	]
 
-  return (<div className="overflow-x-scroll w-full rounded scroll-smooth">
+  return (<div className="w-full rounded scroll-smooth">
     <table className="rounded border-solid">
       <tr>
         {headerCells.map(field => {
@@ -117,7 +118,7 @@ const Table = (mainProps: {props: Props}) => {
                   {options.map(option => {
                     return (
                       <button 
-                        className="bg-white dark:bg-light-orange dark:text-deep-orange rounded-md px-2 py-1 m-1"
+                        className="bg-deep-orange text-light-orange dark:bg-light-orange dark:text-deep-orange rounded-md px-2 py-1 m-1"
                         onClick={
                           (option.id == "addEntry") 
                           // @ts-ignore

@@ -9,11 +9,17 @@ export type Props = {
 }
 
 const Dashboard = (props: Props) => {
-  return (<>
-    <h2 className="text-3xl mb-3 text-deep-orange dark:text-light-orange">Dashboard</h2>
-    <Table props={props}  />
-    {Button("Add track", props.changeAddTrackFormDisplay)}
-  </>)
+  return (
+    <>
+    <div className="flex overflow-hidden h-screen">
+      <div className="overflow-scroll">
+        <h2 className="text-3xl mb-3 text-deep-orange dark:text-light-orange">Dashboard</h2>
+        <Table props={props}  />
+        {Button("Add track", props.changeAddTrackFormDisplay)}
+      </div>
+    </div>
+    </>
+  )
 }
 
 export default Dashboard
