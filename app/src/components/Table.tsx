@@ -12,10 +12,11 @@ import { Entry } from "../dataTypes/Entry";
 let thStyle = "bg-deep-orange dark:bg-light-orange text-white dark:text-deep-orange px-8 py-2";
 let tdStyle = "whitespace-nowrap px-8 py-4 text-deep-orange dark:text-light-orange" ;
 
+// returns the last count from the data
 const lastCount = (data: {} | undefined) => {
   if (data) {
     const values = Object.values(data);
-    
+
     // @ts-ignore
     let tempData: number[] = [...values].sort((b, a) => a - b)
 
@@ -25,6 +26,19 @@ const lastCount = (data: {} | undefined) => {
   return 0
 }
 
+const getMonth = (month: string) => {
+  let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+  return months[parseInt(month) - 1]
+}
+
+const formatDate = (dateString: string) => {
+  let dateArray = dateString.split("-")
+
+  return dateArray[2] + " " + getMonth(dateArray[1])
+}
+
+// element formatting
 const ThElement = (text: string) => {
   return <th className={thStyle}>{text}</th>
 }
@@ -89,7 +103,7 @@ const Table = (mainProps: {props: Props}) => {
         })}
         <th className={thStyle}>Last count</th>
         {[...dates].sort((b, a) => a.id.localeCompare(b.id)).map(date => {
-          return ThElement(date.id)
+          return ThElement(formatDate(date.id))
         })}
       </tr>
       {[...data].sort((a, b) => lastCount(b.data) - lastCount(a.data)).map(track => {
